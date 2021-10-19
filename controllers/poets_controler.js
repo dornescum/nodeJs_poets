@@ -5,7 +5,7 @@ let dummy_poets = [
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -50,13 +50,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "2",
 		"first_name": "ana",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -101,13 +101,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "3",
 		"first_name": "andrei",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -152,13 +152,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "4",
 		"first_name": "costel",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -203,13 +203,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "5",
 		"first_name": "costel",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -254,13 +254,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "6",
 		"first_name": "costin",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -305,13 +305,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "7",
 		"first_name": "dan",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -356,13 +356,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "8",
 		"first_name": "elena",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -407,13 +407,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "9",
 		"first_name": "george",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -458,13 +458,13 @@ let dummy_poets = [
 		},
 		"death": "1991"
 	},
-{
+	{
 		"id": "10",
 		"first_name": "ionut",
 		"second_name": "popescu",
 		"desc": {
 			"oras": "Bucuresti",
-			"cartier":"Rahova"
+			"cartier": "Rahova"
 		},
 		"biography": {
 			"year": {
@@ -511,22 +511,21 @@ let dummy_poets = [
 	},
 
 
-
 ];
 
-const Poet = require('../models/schema')
+const Poet = require('../models/schema');
 
 
 const getPoetsById = (req, res, next) => {
 	const poetId = req.params.id;
-	const poet = dummy_poets.find(p =>{
+	const poet = dummy_poets.find(p => {
 		return p.id === poetId;
-	})
+	});
 	// if(!poet){
 	// 	return res.status(404).json({message: 'no poet'});
 	// }
 	// dc esti async folosesti next(error)
-	if(!poet){
+	if (!poet) {
 		const error = new Error('no poet found');
 		error.code = 404;
 		// throw error;
@@ -535,15 +534,14 @@ const getPoetsById = (req, res, next) => {
 
 	res.json({poet});
 	// res.json({poet:poet});
-}
-const deletePoet = (req, res, next)=>{
+};
+const deletePoet = (req, res, next) => {
 	const poetId = req.params.id;
-	dummy_poets = dummy_poets.filter(p => p.id !== poetId)
-	res.status(200).json({message: 'deleted poet'})
+	dummy_poets = dummy_poets.filter(p => p.id !== poetId);
+	res.status(200).json({message: 'deleted poet'});
 
-}
-
-const createPoet = async (req,res, next)=>{
+};
+const createPoet = async (req, res, next) => {
 	const {first_name, second_name, id, prison_time, desc, biography, death} = req.body;
 	const createdPoet = {
 		first_name,
@@ -553,8 +551,8 @@ const createPoet = async (req,res, next)=>{
 		desc,
 		biography,
 		death
-	}
-	dummy_poets.push(createdPoet)
+	};
+	dummy_poets.push(createdPoet);
 
 	// const createdPoet = new Poet(
 	// 	first_name,
@@ -567,8 +565,19 @@ const createPoet = async (req,res, next)=>{
 	// 	return next(err)
 	// }
 
-	res.status(201).json({poet: createdPoet})
-}
+	res.status(201).json({poet: createdPoet});
+};
+const updatePoetById = (req, res, next) => {
+	const {first_name, second_name} = req.body;
+	const poetId = req.params.id;
+	const updatedPoet ={...dummy_poets.find(p => p.id === poetId)};
+	const poetIndex = dummy_poets.findIndex(p => p.id === poetId);
+	updatedPoet.first_name = first_name;
+	updatedPoet.second_name = second_name;
+	dummy_poets[poetIndex] =updatedPoet;
+	res.status(200).json({poet: updatedPoet})
+
+};
 
 // module.exports = getPoetsById;
 // module.exports = deletePoet;
@@ -576,6 +585,7 @@ const createPoet = async (req,res, next)=>{
 exports.getPoetsById = getPoetsById;
 exports.deletePoet = deletePoet;
 exports.createPoet = createPoet;
+exports.updatePoetById = updatePoetById;
 
 
 

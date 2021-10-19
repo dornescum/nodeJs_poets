@@ -528,5 +528,6 @@ router.get('/', (req, res, next)=>{
 });
 router.get('/:id', poetsControllers.getPoetsById );
 router.delete('/:id', poetsControllers.deletePoet);
-router.post('/', poetsControllers.createPoet)
+router.post('/', poetsControllers.createPoet);
+router.patch('/:id', poetsControllers.updatePoetById);
 module.exports = router;
