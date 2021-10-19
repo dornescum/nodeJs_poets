@@ -1,4 +1,4 @@
-const dummy_poets = [
+let dummy_poets = [
 	{
 		"id": "1",
 		"first_name": "gigi",
@@ -39,4 +39,15 @@ const getPoetsById = (req, res, next) => {
 	res.json({poet});
 	// res.json({poet:poet});
 }
-module.exports = getPoetsById;
+const deletePoet = (req, res, next)=>{
+	const poetId = req.params.id;
+	dummy_poets = dummy_poets.filter(p => p.id !== poetId)
+	res.status(200).json({message: 'deleted poet'})
+
+}
+
+// module.exports = getPoetsById;
+// module.exports = deletePoet;
+
+exports.getPoetsById = getPoetsById;
+exports.deletePoet = deletePoet;
