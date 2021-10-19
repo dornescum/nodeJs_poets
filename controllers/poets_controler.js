@@ -584,15 +584,35 @@ const createPoet = async (req, res, next) => {
 
 	res.status(201).json({poet: createdPoet});
 };
-const updatePoetById = (req, res, next) => {
+const updatePoetById =async (req, res, next) => {
 	const {first_name, second_name} = req.body;
 	const poetId = req.params.id;
-	const updatedPoet ={...dummy_poets.find(p => p.id === poetId)};
-	const poetIndex = dummy_poets.findIndex(p => p.id === poetId);
-	updatedPoet.first_name = first_name;
-	updatedPoet.second_name = second_name;
-	dummy_poets[poetIndex] =updatedPoet;
-	res.status(200).json({poet: updatedPoet})
+	let poet;
+	try	{
+		poet =await Poet.findById(poetId);
+	} catch (err){
+		const error = new Error('no poet found');
+		error.code = 404;
+		return next(error); // pt next(error) trebuie return!!!
+	}
+	poet.first_name = first_name;
+	poet.second_name = second_name;
+	try {
+		await poet.save();
+	}
+	catch (err){
+		const error = new Error('cannot update');
+		error.code = 404;
+		return next(error); // pt next(error) trebuie return!!!
+	}
+
+	res.status(200).json({poet: poet.toObject({getters: true})})
+
+	// const updatedPoet ={...dummy_poets.find(p => p.id === poetId)};
+	// const poetIndex = dummy_poets.findIndex(p => p.id === poetId);
+	// updatedPoet.first_name = first_name;
+	// updatedPoet.second_name = second_name;
+	// dummy_poets[poetIndex] =updatedPoet;
 
 };
 
