@@ -30,7 +30,10 @@ router.get('/:id', (req, res, next) => {
 	const poet = dummy_poets.find(p =>{
 		return p.id === poetId;
 	})
-	// console.log(poet);
+	if(!poet){
+		return res.status(404).json({message: 'no poet'});
+	}
+
 	res.json({poet});
 	// res.json({poet:poet});
 });
