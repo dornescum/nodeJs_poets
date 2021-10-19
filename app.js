@@ -1,13 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose')
 
 const poetsRoutes = require('./routes/poets_routes');
 // const deletePoets = require('./routes/poets_routes')
 
 
 const app = express();
+app.use(bodyParser.json());
+
 app.use('/api/poets', poetsRoutes);
-// app.use('/api/poets', deletePoets);
+
 
 
 // middelware pt route inexistente
@@ -25,4 +28,12 @@ app.use((error, reqm, res, next)=>{
 	res.json({message: error.message || 'something went wrong'})
 })
 
-app.listen(5000);
+
+mongoose
+	.connect('mongodb+srv://mern_tutorial_max:Ceapa_2000@thenetninja.ftnae.mongodb.net/PoetsDataBase?retryWrites=true&w=majority' +
+		'')
+	.then(()=>{
+		app.listen(5000);
+	})
+	.catch(err => console.log(err))
+
