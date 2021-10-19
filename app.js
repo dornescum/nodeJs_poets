@@ -5,6 +5,6 @@ const poetsRoutes = require('./routes/poets_routes');
 
 
 const app = express();
-app.use(poetsRoutes);
+app.use('/api/poets',poetsRoutes);
 
 app.listen(5000);
