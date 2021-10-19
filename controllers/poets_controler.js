@@ -516,24 +516,33 @@ let dummy_poets = [
 const Poet = require('../models/schema');
 
 
-const getPoetsById = (req, res, next) => {
+const getPoetsById = async (req, res, next) => {
 	const poetId = req.params.id;
-	const poet = dummy_poets.find(p => {
-		return p.id === poetId;
-	});
-	// if(!poet){
-	// 	return res.status(404).json({message: 'no poet'});
-	// }
-	// dc esti async folosesti next(error)
-	if (!poet) {
+	let poet;
+	try	{
+		poet =await Poet.findById(poetId);
+	} catch (err){
 		const error = new Error('no poet found');
 		error.code = 404;
-		// throw error;
 		return next(error); // pt next(error) trebuie return!!!
 	}
 
-	res.json({poet});
-	// res.json({poet:poet});
+	// const poet = dummy_poets.find(p => {
+	// 	return p.id === poetId;
+	// });
+	if(!poet){
+		return res.status(404).json({message: 'no poet'});
+	}
+	// dc esti async folosesti next(error)
+	// if (!poet) {
+	// 	const error = new Error('no poet found');
+	// 	error.code = 404;
+	// 	// throw error;
+	// 	return next(error); // pt next(error) trebuie return!!!
+	// }
+
+	// res.json({poet});
+	res.json({poet: poet.toObject({getters: true}) }); //getters: true scap de _id =>id
 };
 const deletePoet = (req, res, next) => {
 	const poetId = req.params.id;
