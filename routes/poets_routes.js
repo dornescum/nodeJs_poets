@@ -3,6 +3,7 @@ const {route} = require("express/lib/router");
 
 const router = express.Router();
 
+
 const dummy_poets = [
 	{
 		"id": "1",
@@ -25,16 +26,7 @@ const dummy_poets = [
 
 ];
 
-router.get('/:id', (req, res, next) => {
-	const poetId = req.params.id;
-	const poet = dummy_poets.find(p =>{
-		return p.id === poetId;
-	})
-	if(!poet){
-		return res.status(404).json({message: 'no poet'});
-	}
 
-	res.json({poet});
-	// res.json({poet:poet});
-});
+const poetsControllers = require('../controllers/poets_controler')
+router.get('/:id', poetsControllers );
 module.exports = router;
