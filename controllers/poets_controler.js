@@ -514,14 +514,24 @@ let dummy_poets = [
 ];
 
 const Poet = require('../models/schema');
-
-
+const getPoets = async (req, res, next) => {
+	let poets;
+	try {
+		poets = await Poet.find({}, 'first_name');
+	} catch (err) {
+		const error = new Error('no poet found');
+		error.code = 404;
+		return next(error); // pt next(error) trebuie return!!!
+	}
+	console.log(poets);
+	res.json({poets: poets.map(poet => poet.toObject({getters: true}))});
+};
 const getPoetsById = async (req, res, next) => {
 	const poetId = req.params.id;
 	let poet;
-	try	{
-		poet =await Poet.findById(poetId);
-	} catch (err){
+	try {
+		poet = await Poet.findById(poetId);
+	} catch (err) {
 		const error = new Error('no poet found');
 		error.code = 404;
 		return next(error); // pt next(error) trebuie return!!!
@@ -530,7 +540,7 @@ const getPoetsById = async (req, res, next) => {
 	// const poet = dummy_poets.find(p => {
 	// 	return p.id === poetId;
 	// });
-	if(!poet){
+	if (!poet) {
 		return res.status(404).json({message: 'no poet'});
 	}
 	// dc esti async folosesti next(error)
@@ -542,12 +552,30 @@ const getPoetsById = async (req, res, next) => {
 	// }
 
 	// res.json({poet});
-	res.json({poet: poet.toObject({getters: true}) }); //getters: true scap de _id =>id
+	res.json({poet: poet.toObject({getters: true})}); //getters: true scap de _id =>id
 };
-const deletePoet = (req, res, next) => {
+const deletePoet = async (req, res, next) => {
 	const poetId = req.params.id;
-	dummy_poets = dummy_poets.filter(p => p.id !== poetId);
+
+	let poet;
+	try {
+		poet = await Poet.findById(poetId);
+	} catch (err) {
+		const error = new Error('no poet found');
+		error.code = 404;
+		return next(error); // pt next(error) trebuie return!!!
+	}
+
+	try {
+		await poet.remove();
+	} catch (err) {
+		const error = new Error('no poet found');
+		error.code = 404;
+		return next(error); // pt next(error) trebuie return!!!
+	}
 	res.status(200).json({message: 'deleted poet'});
+	// const poetId = req.params.id;
+	// dummy_poets = dummy_poets.filter(p => p.id !== poetId);
 
 };
 const createPoet = async (req, res, next) => {
@@ -568,29 +596,29 @@ const createPoet = async (req, res, next) => {
 	const createdPoet = new Poet({
 		first_name,
 		second_name,
-		image:"https://images.unsplash.com/photo-1579293676244-953f569610cd?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ldHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+		image: "https://images.unsplash.com/photo-1579293676244-953f569610cd?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ldHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
 		description,
 		biography,
 		prison_time,
 		death,
 		after_prison
-	})
-	try	{
-		await createdPoet.save()
-	} catch(err){
-		console.log(err)
-		return next(err)
+	});
+	try {
+		await createdPoet.save();
+	} catch (err) {
+		console.log(err);
+		return next(err);
 	}
 
 	res.status(201).json({poet: createdPoet});
 };
-const updatePoetById =async (req, res, next) => {
+const updatePoetById = async (req, res, next) => {
 	const {first_name, second_name} = req.body;
 	const poetId = req.params.id;
 	let poet;
-	try	{
-		poet =await Poet.findById(poetId);
-	} catch (err){
+	try {
+		poet = await Poet.findById(poetId);
+	} catch (err) {
 		const error = new Error('no poet found');
 		error.code = 404;
 		return next(error); // pt next(error) trebuie return!!!
@@ -599,14 +627,13 @@ const updatePoetById =async (req, res, next) => {
 	poet.second_name = second_name;
 	try {
 		await poet.save();
-	}
-	catch (err){
+	} catch (err) {
 		const error = new Error('cannot update');
 		error.code = 404;
 		return next(error); // pt next(error) trebuie return!!!
 	}
 
-	res.status(200).json({poet: poet.toObject({getters: true})})
+	res.status(200).json({poet: poet.toObject({getters: true})});
 
 	// const updatedPoet ={...dummy_poets.find(p => p.id === poetId)};
 	// const poetIndex = dummy_poets.findIndex(p => p.id === poetId);
@@ -616,13 +643,13 @@ const updatePoetById =async (req, res, next) => {
 
 };
 
-// module.exports = getPoetsById;
-// module.exports = deletePoet;
-
 exports.getPoetsById = getPoetsById;
 exports.deletePoet = deletePoet;
 exports.createPoet = createPoet;
 exports.updatePoetById = updatePoetById;
+exports.getPoets = getPoets;
 
+// module.exports = getPoetsById;
+// module.exports = deletePoet;
 
 

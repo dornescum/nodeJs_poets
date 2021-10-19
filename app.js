@@ -11,8 +11,6 @@ app.use(bodyParser.json());
 
 app.use('/api/poets', poetsRoutes);
 
-
-
 // middelware pt route inexistente
 app.use((req, res, next)=>{
 	const error = new Error('no route found for your search');
