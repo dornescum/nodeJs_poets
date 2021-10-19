@@ -542,28 +542,36 @@ const deletePoet = (req, res, next) => {
 
 };
 const createPoet = async (req, res, next) => {
-	const {first_name, second_name, id, prison_time, desc, biography, death} = req.body;
-	const createdPoet = {
-		first_name,
-		second_name,
-		id,
-		prison_time,
-		desc,
-		biography,
-		death
-	};
-	dummy_poets.push(createdPoet);
-
-	// const createdPoet = new Poet(
+	// const {first_name, second_name, id, prison_time, desc, biography, death} = req.body;
+	// const createdPoet = {
 	// 	first_name,
 	// 	second_name,
-	// )
-	// try	{
-	// 	await createdPoet.save()
-	// } catch(err){
-	// 	console.log(err)
-	// 	return next(err)
-	// }
+	// 	id,
+	// 	prison_time,
+	// 	desc,
+	// 	biography,
+	// 	death
+	// };
+	// dummy_poets.push(createdPoet);
+
+
+	const {first_name, second_name, image, description, biography, prison_time, death, after_prison} = req.body;
+	const createdPoet = new Poet({
+		first_name,
+		second_name,
+		image:"https://images.unsplash.com/photo-1579293676244-953f569610cd?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ldHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+		description,
+		biography,
+		prison_time,
+		death,
+		after_prison
+	})
+	try	{
+		await createdPoet.save()
+	} catch(err){
+		console.log(err)
+		return next(err)
+	}
 
 	res.status(201).json({poet: createdPoet});
 };
