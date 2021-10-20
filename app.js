@@ -26,11 +26,12 @@ app.use((error, reqm, res, next)=>{
 	res.json({message: error.message || 'something went wrong'})
 })
 
+const PORT = process.env.PORT || 5000;
 
 mongoose
 	.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@thenetninja.ftnae.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
 	.then(()=>{
-		app.listen(5000);
+		app.listen(PORT);
 	})
 
 	.catch(err => console.log(err))
