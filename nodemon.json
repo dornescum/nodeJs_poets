@@ -1,7 +1,0 @@
-{
-  "env": {
-    "DB_USER": "mern_tutorial_max",
-    "DB_PASSWORD": "Ceapa_2000",
-    "DB_NAME": "PoetsDataBase"
-  }
-}
