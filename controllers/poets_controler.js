@@ -517,13 +517,15 @@ const Poet = require('../models/schema');
 const getPoets = async (req, res, next) => {
 	let poets;
 	try {
-		poets = await Poet.find({}, 'first_name');
+		poets = await Poet.find({}, '' );
+
+
 	} catch (err) {
 		const error = new Error('no poet found');
 		error.code = 404;
 		return next(error); // pt next(error) trebuie return!!!
 	}
-	console.log(poets);
+	console.log(poets.length);
 	res.json({poets: poets.map(poet => poet.toObject({getters: true}))});
 };
 const getPoetsById = async (req, res, next) => {
