@@ -31,7 +31,10 @@ const PORT = process.env.PORT || 5000;
 mongoose
 	.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@thenetninja.ftnae.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
 	.then(()=>{
-		app.listen(PORT);
+		// app.listen(PORT);
+		app.listen(process.env.PORT || 3000, function(){
+			console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+		});
 	})
 
 	.catch(err => console.log(err))
