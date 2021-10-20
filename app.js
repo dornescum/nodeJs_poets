@@ -28,8 +28,7 @@ app.use((error, reqm, res, next)=>{
 
 
 mongoose
-	.connect('mongodb+srv://mern_tutorial_max:Ceapa_2000@thenetninja.ftnae.mongodb.net/PoetsDataBase?retryWrites=true&w=majority' +
-		'')
+	.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@thenetninja.ftnae.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
 	.then(()=>{
 		app.listen(5000);
 	})
