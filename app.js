@@ -26,15 +26,15 @@ app.use((error, reqm, res, next)=>{
 	res.json({message: error.message || 'something went wrong'})
 })
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3333;
 
 mongoose
 	.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@thenetninja.ftnae.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
 	.then(()=>{
-		// app.listen(PORT);
-		app.listen(process.env.PORT || '0.0.0.0', function(){
-			console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-		});
+		app.listen(PORT);
+		// app.listen(process.env.PORT || 5000, function(){
+		// 	console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+		// });
 	})
 
 
